@@ -198,17 +198,24 @@ class _DropdownMenuItemButtonState<T> extends State<_DropdownMenuItemButton<T>> 
     // An [InkWell] is added to the item only if it is enabled
     // isNoSelectedItem to avoid first item highlight when no item selected
     if (dropdownMenuItem.enabled) {
-      final bool isSelectedItem =
-          !widget.route.isNoSelectedItem && widget.itemIndex == widget.route.selectedIndex;
-      child = InkWell(
-        autofocus: isSelectedItem,
-        enableFeedback: widget.enableFeedback,
-        onTap: _handleOnTap,
-        onFocusChange: _handleFocusChange,
-        overlayColor: menuItemStyle.overlayColor,
-        child: isSelectedItem
-            ? menuItemStyle.selectedMenuItemBuilder?.call(context, child) ?? child
-            : child,
+      final bool isSelectedItem = !widget.route.isNoSelectedItem && widget.itemIndex == widget.route.selectedIndex;
+      child = Material(
+          color: isSelectedItem ? Theme.of(context).primaryColor : null,
+          child: DefaultTextStyle.merge(
+            style: TextStyle(
+              color: isSelectedItem ? Colors.white : null,
+            ),
+            child: InkWell(
+              autofocus: isSelectedItem,
+              enableFeedback: widget.enableFeedback,
+              onTap: _handleOnTap,
+              onFocusChange: _handleFocusChange,
+              overlayColor: menuItemStyle.overlayColor,
+              child: isSelectedItem
+                  ? menuItemStyle.selectedMenuItemBuilder?.call(context, child) ?? child
+                  : child,
+            ),
+          ),
       );
     }
     child = FadeTransition(opacity: opacity, child: child);
