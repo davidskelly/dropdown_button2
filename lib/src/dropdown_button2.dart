@@ -218,7 +218,8 @@ class _DropdownMenuItemButtonState<T> extends State<_DropdownMenuItemButton<T>> 
           ),
       );
     }
-    child = FadeTransition(opacity: opacity, child: child);
+    // each menu item is immediately visible instead of popping/fading in
+    // child = FadeTransition(opacity: opacity, child: child);
     if (kIsWeb && dropdownMenuItem.enabled) {
       child = Shortcuts(
         shortcuts: _webShortcuts,
