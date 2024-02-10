@@ -952,6 +952,11 @@ class _DropdownMenuItemContainer extends StatelessWidget {
 ///  * [ElevatedButton], [TextButton], ordinary buttons that trigger a single action.
 ///  * <https://material.io/design/components/menus.html#dropdown-menu>
 class DropdownButton2<T> extends StatefulWidget {
+
+  // padding for the drop down menu if it is wider than the button
+  // ideally the drop down menu width should be calculated but this is just a hack for now
+  double additionalPadRight;
+
   /// Creates a DropdownButton2.
   /// It's customizable DropdownButton with steady dropdown menu and many other features.
   ///
@@ -993,6 +998,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierDismissible = true,
     this.barrierColor,
     this.barrierLabel,
+    this.additionalPadRight = 0,
     // When adding new arguments, consider adding similar arguments to
     // DropdownButtonFormField.
   })  : assert(
@@ -1046,6 +1052,7 @@ class DropdownButton2<T> extends StatefulWidget {
     this.barrierDismissible = true,
     this.barrierColor,
     this.barrierLabel,
+    this.additionalPadRight = 0,
     required InputDecoration inputDecoration,
     required bool isEmpty,
     required bool isFocused,
@@ -1366,10 +1373,10 @@ class DropdownButton2State<T> extends State<DropdownButton2<T>> with WidgetsBind
         rootNavigator: _dropdownStyle.isFullScreen ?? _dropdownStyle.useRootNavigator);
 
     final RenderBox itemBox = context.findRenderObject()! as RenderBox;
-    final Rect itemRect =
+    Rect itemRect =
         itemBox.localToGlobal(Offset.zero, ancestor: navigator.context.findRenderObject()) &
             itemBox.size;
-
+    itemRect = Rect.fromLTRB(itemRect.left, itemRect.top, itemRect.right + widget.additionalPadRight, itemRect.bottom);
     return menuMargin.resolve(textDirection).inflateRect(itemRect);
   }
 
